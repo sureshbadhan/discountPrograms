@@ -1,0 +1,78 @@
+<style type="text/css">
+	table th, table td{
+		border: 1px solid;
+		padding:5px;
+		text-align: center;
+	}
+</style>
+<table style="padding: 50px">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>DOB</th>
+			<th>Discount</th>
+		</tr>
+	</thead>
+	<tbody></tbody>
+</table>
+
+<script type="text/javascript">
+	var customers = [
+		{'id' : 20, 'name' : 'Jack Aranda', 'dob' : '21-11-1988'},
+		{'id' : 21, 'name' : 'Olive Tree', 'dob' : '28-02-2000'},
+		{'id' : 22, 'name' : 'John', 'dob' : '11-09-1998'}
+	];
+
+	function get_discount(data)
+	{
+		var dob,returnArray=[],discount;
+		for(i = 0; i < data.length; i++)
+		{
+			dob = data[i].dob.replace("-","");
+			dob = dob.replace("-","");
+
+			discount = sumofdigit(dob);
+			if(discount > 20 && discount < 35)
+			{
+				discount_result = discount;
+			}
+			else if(discount >= 35)
+			{
+				discount_result = 35;
+			}
+			else{
+				discount_result = 0;
+			}
+
+			returnArray.push({'id' : data[i].id,'name':data[i].name,'dob':data[i].dob,'discount':discount_result});
+		}
+		return returnArray;
+	}
+
+	function sumofdigit(digit)
+	{  
+		var remainder, sumOfDigits = 0;
+		while(digit)
+		{
+		    remainder = digit % 10;
+		    sumOfDigits = sumOfDigits + remainder;
+		    digit = Math.floor(digit/10);
+		}
+		return sumOfDigits;
+	}
+
+	var discounts = get_discount(customers);
+	var html = '';
+	for(j=0;j<discounts.length;j++)
+	{
+		html += `<tr>
+			<td>${discounts[j].id}</td>
+			<td>${discounts[j].name}</td>
+			<td>${discounts[j].dob}</td>
+			<td>\u20B9${discounts[j].discount}</td>
+		</tr>`;
+	}
+	document.querySelector("table tbody").innerHTML = html;
+
+</script>
